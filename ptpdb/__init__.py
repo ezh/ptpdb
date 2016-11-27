@@ -404,14 +404,14 @@ class PtPdb(pdb.Pdb):
             # Turn Control-D key press into a 'quit' command.
             return 'quit'
 
-    def run_config(repl, config_file='~/.ptpython/dbconfig.py'):
+    def run_config(debugger, config_file='~/.ptpython/dbconfig.py'):
         """
         Execute debugger config file.
 
-        :param repl: `PythonInput` instance.
+        :param debugger: `PtPdb` instance.
         :param config_file: Path of the configuration file.
         """
-        assert isinstance(repl, PtPdb)
+        assert isinstance(debugger, PtPdb)
         assert isinstance(config_file, six.text_type)
 
         # Expand tildes.
@@ -435,9 +435,9 @@ class PtPdb(pdb.Pdb):
                 six.exec_(code, namespace, namespace)
 
             # Now we should have a 'configure' method in this namespace. We call this
-            # method with the repl as an argument.
+            # method with the debugger as an argument.
             if 'configure' in namespace:
-                namespace['configure'](repl)
+                namespace['configure'](debugger)
 
         except Exception:
              traceback.print_exc()
